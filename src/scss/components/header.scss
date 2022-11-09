@@ -1,0 +1,21 @@
+.header {
+  background-color: var(--elements);
+  padding: 32px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+
+  -webkit-box-shadow: 0px -11px 29px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px -11px 29px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px -11px 29px 0px rgba(0, 0, 0, 1);
+
+  &__button {
+    color: var(--text);
+    background-color: transparent;
+    border: none;
+
+    i {
+      margin-right: 8px;
+    }
+  }
+}
