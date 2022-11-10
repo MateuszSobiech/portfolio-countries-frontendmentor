@@ -13,9 +13,9 @@ class Header extends HTMLElement {
 
   render() {
     this.innerHTML = `
-      <header class="header">
-        <h1 class="header__title">Where in the world?</h1>
-        <button class="header__button"><i class="fa-solid fa-moon"></i> Dark Mode</button>
+      <header class="c-header">
+        <h1>Where in the world?</h1>
+        <button class="c-header__button"><i class="fa-solid fa-moon"></i> Dark Mode</button>
       </header>
     `;
   }
