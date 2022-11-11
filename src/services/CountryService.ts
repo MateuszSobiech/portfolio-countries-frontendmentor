@@ -1,6 +1,7 @@
 import { Country } from '../components/Country';
 
 export class CountryService {
+  static selectedCountry: string = '';
   static countries: ICountry[];
 
   static async fetchCountries(endpoint: string) {

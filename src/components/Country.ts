@@ -25,9 +25,11 @@ export class Country extends HTMLElement {
       capital = '',
     } = this.country;
 
+    this.dataset.name = common;
+
     this.innerHTML = `
     <article class="c-country">
-      <img src="${png}" alt="flag" />
+      <img src="${png}" alt="flag" loading="lazy" />
       <div class="c-country__info">
         <p class="c-country__title">${common}</p>
         <p class="c-country__text">Population: <span>${population.toLocaleString('en-US')}</span></p>
