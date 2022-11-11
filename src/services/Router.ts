@@ -7,7 +7,7 @@ class Router extends HTMLElement {
 
     this.routes = {
       '#/': 'p-index',
-      '#/country': 'p-country',
+      '#/country': 'p-country-details',
     };
 
     this.hashchangeListener = () => {

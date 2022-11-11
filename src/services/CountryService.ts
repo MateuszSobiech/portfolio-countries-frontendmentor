@@ -1,11 +1,13 @@
-import { Country } from '../components/Country';
+import { Country } from '../components/Country.comp';
 
 export class CountryService {
-  static selectedCountry: string = '';
+  static selectedCountry: string = 'Belgium';
   static countries: ICountry[];
 
+  static apiUrl: string = 'https://restcountries.com/v3.1';
+
   static async fetchCountries(endpoint: string) {
-    const countries: ICountry[] = await (await fetch(`https://restcountries.com/v3.1${endpoint}`)).json();
+    const countries: ICountry[] = await (await fetch(`${this.apiUrl}${endpoint}`)).json();
     this.countries = countries;
   }
 
@@ -23,5 +25,14 @@ export class CountryService {
     (countries || this.countries).forEach((country) => {
       container.append(new Country(country));
     });
+  }
+
+  static async getCountry(): Promise<ICountry> {
+    const countries = await (await fetch(`${this.apiUrl}/name/${this.selectedCountry}`)).json();
+    return countries.find(({ name: { common } }) => common === this.selectedCountry);
+  }
+
+  static async getBorderNames(codes: string): Promise<ICountry[]> {
+    return await (await fetch(`${this.apiUrl}/alpha?codes=${codes}`)).json();
   }
 }

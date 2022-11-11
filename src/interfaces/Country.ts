@@ -4,6 +4,11 @@ interface ICountry {
   population: number;
   region: string;
   capital: string[];
+  subregion: string;
+  tld: string[];
+  currencies: {};
+  languages: {};
+  borders: string[];
 }
 
 let sample = [

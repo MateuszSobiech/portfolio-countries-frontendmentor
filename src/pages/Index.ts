@@ -18,8 +18,8 @@ class Index extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.addEventListener('click', this.showCountryDetails);
     this.render();
+    this.addEventListener('click', this.showCountryDetails);
 
     await CountryService.fetchCountries('/all');
     CountryService.render();
