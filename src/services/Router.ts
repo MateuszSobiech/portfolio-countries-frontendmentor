@@ -17,9 +17,9 @@ class Router extends HTMLElement {
   }
 
   connectedCallback() {
-    location.hash = '#/';
+    const { hash } = location;
+    this.render(this.routes[hash] || 'p-index');
     self.addEventListener('hashchange', this.hashchangeListener);
-    this.render('p-index');
   }
 
   render(name: string = 'p-error') {

@@ -57,7 +57,7 @@ class CountryDetails extends HTMLElement {
 
     this.innerHTML = `
       <main class="p-country-details">
-        <a href="#/" class="p-country-details__back-button">Back</a>
+        <a href="#/" class="p-country-details__back-button"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
         <article>
           <img src="${png}" alt="flag" />
           <div>

@@ -1,7 +1,7 @@
 import { Country } from '../components/Country.comp';
 
 export class CountryService {
-  static selectedCountry: string = 'Belgium';
+  static selectedCountry: string = '';
   static countries: ICountry[];
 
   static apiUrl: string = 'https://restcountries.com/v3.1';
@@ -28,8 +28,11 @@ export class CountryService {
   }
 
   static async getCountry(): Promise<ICountry> {
-    const countries = await (await fetch(`${this.apiUrl}/name/${this.selectedCountry}`)).json();
-    return countries.find(({ name: { common } }) => common === this.selectedCountry);
+    const searchCountry = this.selectedCountry || localStorage.getItem('selectedCountry') || 'Poland';
+    localStorage.setItem('selectedCountry', searchCountry);
+
+    const countries = await (await fetch(`${this.apiUrl}/name/${searchCountry}`)).json();
+    return countries.find(({ name: { common } }) => common === searchCountry);
   }
 
   static async getBorderNames(codes: string): Promise<ICountry[]> {
