@@ -14,7 +14,7 @@
     display: block;
     width: 100%;
     aspect-ratio: 3/2;
-    margin-bottom: 64px;
+    margin-bottom: 50px;
   }
 
   h2 {
@@ -49,5 +49,51 @@
 
   &--mt48 {
     margin-top: 48px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .p-country-details {
+    padding: 48px 64px;
+
+    article {
+      display: grid;
+      gap: 124px;
+      grid-template-columns: 600px 1fr;
+    }
+
+    h3 {
+      font-size: 14px;
+      margin: 5px 12px 0 0;
+    }
+
+    .md\:info {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      font-size: 14px;
+      padding-right: 90px;
+      gap: 50px;
+    }
+
+    .md\:info-second {
+      margin: 0 !important;
+    }
+
+    .md\:borders {
+      display: flex;
+      opacity: 0.8;
+    }
+
+    p:first-child {
+      width: max-content;
+    }
+  }
+}
+
+@media (min-width: 1430px) {
+  .p-country-details {
+    width: 1400px;
+    margin: 0 auto;
   }
 }

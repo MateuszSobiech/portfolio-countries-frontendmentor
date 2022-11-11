@@ -8,7 +8,7 @@ export class CountryService {
 
   static async fetchCountries(endpoint: string) {
     const countries: ICountry[] = await (await fetch(`${this.apiUrl}${endpoint}`)).json();
-    this.countries = countries;
+    this.countries = (countries as any).status !== 404 ? countries.sort((a, b) => (a.name.common > b.name.common ? 1 : -1)) : null;
   }
 
   static render(countries: ICountry[] = null) {
@@ -16,7 +16,7 @@ export class CountryService {
 
     if (!container) return;
 
-    if ((this.countries as any).status === 404) {
+    if (!this.countries) {
       container.innerHTML = 'No results';
       return;
     }

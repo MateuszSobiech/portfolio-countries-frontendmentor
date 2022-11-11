@@ -5,3 +5,23 @@
     padding: 48px 32px;
   }
 }
+
+@media (min-width: 768px) {
+  .p-index {
+    padding: 32px 64px;
+
+    &__container {
+      padding: 48px 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 72px;
+    }
+  }
+}
+
+@media (min-width: 1530px) {
+  .p-index {
+    width: 1500px;
+    margin: 0 auto;
+  }
+}

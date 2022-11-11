@@ -41,9 +41,9 @@ class CountryDetails extends HTMLElement {
       name: { common = '', nativeName },
       population = 0,
       region = '',
-      capital,
+      capital = [],
       subregion = '',
-      tld,
+      tld = [],
       currencies,
       languages,
       borders = [],
@@ -62,18 +62,27 @@ class CountryDetails extends HTMLElement {
           <img src="${png}" alt="flag" />
           <div>
             <h2>${common}</h2>
-            <p>Native Name: <span>${firstNative}</span></p>
-            <p>Population: <span>${population?.toLocaleString('en-US')}</span></p>
-            <p>Region: <span>${region}</span></p>
-            <p>Sub Region: <span>${subregion}</span></p>
-            <p>Capital: <span>${capital.join(', ') || ''}</span></p>
-            
-            <p class="p-country-details--mt48">Top Level Domain: <span>${tld.join(', ') || ''}</span></p>
-            <p>Currencies: <span>${formattedCurrencies}</span></p>
-            <p>Languages: <span>${formattedLanguages}</span></p>
+           
+            <div class="md:info">
+              <div>
+                <p>Native Name: <span>${firstNative}</span></p>
+                <p>Population: <span>${population?.toLocaleString('en-US')}</span></p>
+                <p>Region: <span>${region}</span></p>
+                <p>Sub Region: <span>${subregion}</span></p>
+                <p>Capital: <span>${capital.join(', ') || ''}</span></p>
+              </div>
 
-            <h3 class="p-country-details--mt48">Border Countries:</h3>
-            <div class="p-country-details__borders">${borderNames.join('')}</div>
+              <div class="p-country-details--mt48 md:info-second">
+                <p>Top Level Domain: <span>${tld.join(', ') || ''}</span></p>
+                <p>Currencies: <span>${formattedCurrencies}</span></p>
+                <p>Languages: <span>${formattedLanguages}</span></p>
+              </div>
+            </div>
+
+            <div class="p-country-details--mt48 md:borders">
+              <h3><div style="width: max-content;">Border Countries:</div></h3>
+              <div class="p-country-details__borders">${borderNames.join('')}</div>
+            </div>
           </div>
         </article>
       </main>

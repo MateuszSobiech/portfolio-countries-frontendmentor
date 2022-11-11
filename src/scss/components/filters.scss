@@ -24,3 +24,19 @@
     width: 60%;
   }
 }
+
+@media (min-width: 768px) {
+  .c-filters {
+    display: flex;
+    justify-content: space-between;
+
+    &__input {
+      width: 150%;
+    }
+
+    &__select {
+      margin-top: 0;
+      width: auto;
+    }
+  }
+}
