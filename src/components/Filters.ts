@@ -1,16 +1,31 @@
+import { CountryService } from '../services/CountryService';
+
 class Filters extends HTMLElement {
-  handleInputChange: (event: Event) => void;
-  handleSelectChange: (event: Event) => void;
+  handleInputChange: () => void;
+  handleSelectChange: () => void;
 
   constructor() {
     super();
 
-    this.handleInputChange = () => {
-      console.log('input change');
+    this.handleInputChange = async () => {
+      const { value } = this.input;
+      const endpoint = value ? `/name/${value}` : '/all';
+      await CountryService.fetchCountries(endpoint);
+
+      this.handleSelectChange();
     };
 
     this.handleSelectChange = () => {
-      console.log('select change');
+      const { value } = this.select;
+      let filteredCountries: ICountry[];
+
+      if (value === 'all') {
+        filteredCountries = CountryService.countries;
+      } else {
+        filteredCountries = CountryService.countries.filter(({ region }) => region === value);
+      }
+
+      CountryService.render(filteredCountries);
     };
   }
 
