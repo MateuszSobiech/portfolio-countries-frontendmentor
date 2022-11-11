@@ -14,7 +14,6 @@ class Index extends HTMLElement {
       <main class="p-index">
         <c-filters></c-filters>
         <div class="p-index__container">
-        TEST
         </div>
       </main>
     `;

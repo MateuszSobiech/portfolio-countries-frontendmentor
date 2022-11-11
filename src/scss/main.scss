@@ -1,5 +1,9 @@
 @import './global';
 @import './variables';
 
+// pages
+@import './pages/index';
+
 // components
 @import './components/header';
+@import './components/filters';
