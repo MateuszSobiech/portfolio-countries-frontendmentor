@@ -41,12 +41,12 @@ class Filters extends HTMLElement {
     this.render();
 
     this.input?.addEventListener('input', this.handleInputChange);
-    this.select?.addEventListener('input', this.handleSelectChange);
+    this.select?.addEventListener('change', this.handleSelectChange);
   }
 
   disconnectedCallback() {
     this.input?.removeEventListener('input', this.handleInputChange);
-    this.select?.removeEventListener('input', this.handleSelectChange);
+    this.select?.removeEventListener('change', this.handleSelectChange);
   }
 
   render() {
