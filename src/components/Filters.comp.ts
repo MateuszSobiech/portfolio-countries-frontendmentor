@@ -1,33 +1,5 @@
-import { CountryService } from '../services/CountryService';
-
 class Filters extends HTMLElement {
-  handleInputChange: () => void;
-  handleSelectChange: () => void;
-
-  constructor() {
-    super();
-
-    this.handleInputChange = async () => {
-      const { value } = this.input;
-      const endpoint = value ? `/name/${value}` : '/all';
-      await CountryService.fetchCountries(endpoint);
-
-      this.handleSelectChange();
-    };
-
-    this.handleSelectChange = () => {
-      const { value } = this.select;
-      let filteredCountries: ICountry[];
-
-      if (value === 'all') {
-        filteredCountries = CountryService.countries;
-      } else {
-        filteredCountries = CountryService.countries.filter(({ region }) => region === value);
-      }
-
-      CountryService.render(filteredCountries);
-    };
-  }
+  debounce: number;
 
   get input() {
     return this.querySelector<HTMLInputElement>('.c-filters__input');
@@ -40,15 +12,31 @@ class Filters extends HTMLElement {
   connectedCallback() {
     this.render();
 
-    this.input?.addEventListener('input', this.handleInputChange);
-    this.select?.addEventListener('change', this.handleSelectChange);
+    this.input.addEventListener('input', this.emitFiltersChange);
+    this.select.addEventListener('change', this.emitFiltersChange);
   }
 
-  disconnectedCallback() {
-    this.input?.removeEventListener('input', this.handleInputChange);
-    this.select?.removeEventListener('change', this.handleSelectChange);
-  }
+  // Emiters
+  emitFiltersChange = () => {
+    const emit = () => {
+      const filtersState: IFiltersValues = {
+        input: this.input.value,
+        select: this.select.value,
+      };
 
+      this.dispatchEvent(
+        new CustomEvent('filtersChange', {
+          bubbles: true,
+          detail: filtersState,
+        })
+      );
+    };
+
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(emit, 200);
+  };
+
+  // Renderers
   render() {
     this.innerHTML = `
       <section class="c-filters">
@@ -57,7 +45,7 @@ class Filters extends HTMLElement {
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <select class="c-filters__select">
-          <option value="all">Filter by Region</option>
+          <option value="all">All</option>
           <option>Africa</option>
           <option>Americas</option>
           <option>Asia</option>
@@ -69,4 +57,4 @@ class Filters extends HTMLElement {
   }
 }
 
-window.customElements.define('c-filters', Filters);
+customElements.define('c-filters', Filters);

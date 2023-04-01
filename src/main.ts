@@ -8,3 +8,6 @@ import './pages/CountryDetails';
 import './components/Header.comp';
 import './components/Filters.comp';
 import './components/Country.comp';
+
+// TODO README
+// TODO netlify

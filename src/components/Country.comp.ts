@@ -32,7 +32,9 @@ export class Country extends HTMLElement {
       <img src="${png}" alt="flag" loading="lazy" />
       <div class="c-country__info">
         <p class="c-country__title">${common}</p>
-        <p class="c-country__text">Population: <span>${population.toLocaleString('en-US')}</span></p>
+        <p class="c-country__text">Population: <span>${population.toLocaleString(
+          'en-US'
+        )}</span></p>
         <p class="c-country__text">Region: <span>${region}</span></p>
         <p class="c-country__text">Capital: <span>${capital}</span></p>
       </div>
@@ -41,4 +43,4 @@ export class Country extends HTMLElement {
   }
 }
 
-window.customElements.define('c-country', Country);
+customElements.define('c-country', Country);

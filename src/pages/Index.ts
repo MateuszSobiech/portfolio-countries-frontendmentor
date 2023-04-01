@@ -1,40 +1,68 @@
-import { CountryService } from './../services/CountryService';
+import { Country } from '../components/Country.comp';
+import { fetchCountries } from './../services/CountryService';
 
 class Index extends HTMLElement {
-  showCountryDetails: (event: Event) => void;
+  countries: ICountry[];
 
-  constructor() {
-    super();
-
-    this.showCountryDetails = ({ target }) => {
-      if (target instanceof HTMLElement && target.closest('c-country')) {
-        const component = target.closest('c-country') as HTMLElement;
-        const { name } = component.dataset;
-
-        CountryService.selectedCountry = name;
-        location.hash = '#/country';
-      }
-    };
+  get container() {
+    return this.querySelector('.p-index__container');
   }
 
   async connectedCallback() {
-    this.render();
-    this.addEventListener('click', this.showCountryDetails);
+    this.addEventListener('click', this.handleCountryShow);
+    this.addEventListener('filtersChange', this.handleFiltersChange);
 
-    await CountryService.fetchCountries('/all');
-    CountryService.render();
+    this.render();
+
+    try {
+      this.countries = await fetchCountries('/all');
+      this.renderCountries(this.countries);
+    } catch (error) {
+      this.container.textContent = 'No results';
+    }
   }
 
-  disconnectedCallback() {}
+  // Listeners
+  handleCountryShow = ({ target }: Event & { target: HTMLElement }) => {
+    const component = target.closest<HTMLElement>('c-country');
+    if (!component) return;
 
-  render() {
+    const { name } = component.dataset;
+    location.hash = `#/country?name=${name}`;
+  };
+
+  handleFiltersChange = ({ detail: { input, select } }: CustomEvent<IFiltersValues>) => {
+    let filteredCountries: ICountry[];
+
+    filteredCountries = this.countries.filter(({ name: { common } }) => {
+      return common.toLocaleLowerCase().includes(input.toLocaleLowerCase());
+    });
+
+    if (select !== 'all') {
+      filteredCountries = filteredCountries.filter(({ region }) => region === select);
+    }
+
+    this.renderCountries(filteredCountries);
+  };
+
+  // Renderers
+  render = () => {
     this.innerHTML = `
       <main class="p-index">
         <c-filters></c-filters>
         <div class="p-index__container"></div>
       </main>
     `;
-  }
+  };
+
+  renderCountries = (countries: ICountry[]) => {
+    const container = this.container;
+
+    container.innerHTML = '';
+    countries.forEach((country) => {
+      container.append(new Country(country));
+    });
+  };
 }
 
-window.customElements.define('p-index', Index);
+customElements.define('p-index', Index);

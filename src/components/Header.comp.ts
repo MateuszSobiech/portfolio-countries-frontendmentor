@@ -21,4 +21,4 @@ class Header extends HTMLElement {
   }
 }
 
-window.customElements.define('c-header', Header);
+customElements.define('c-header', Header);
