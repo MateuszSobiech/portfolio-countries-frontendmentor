@@ -1,6 +1,3 @@
-type PageRoute = `#/${string}`;
-type PageName = `p-${string}`;
-
 class Router extends HTMLElement {
   ROUTES: Record<PageRoute, PageName> = {
     '#/': 'p-index',
@@ -10,6 +7,7 @@ class Router extends HTMLElement {
   connectedCallback() {
     const pageRoute = this.getPageRoute();
     this.render(this.ROUTES[pageRoute] || 'p-index');
+
     self.addEventListener('hashchange', this.hashchangeListener);
   }
 
@@ -27,11 +25,11 @@ class Router extends HTMLElement {
   };
 
   // Renderers
-  render(name: string = 'p-error') {
+  render = (name: string) => {
     const component = document.createElement(name);
     this.innerHTML = '';
     this.append(component);
-  }
+  };
 
   // Helpers
   getPageRoute = () => {

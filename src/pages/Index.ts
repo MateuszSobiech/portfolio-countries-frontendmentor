@@ -1,5 +1,5 @@
 import { Country } from '../components/Country.comp';
-import { fetchCountries } from './../services/CountryService';
+import CountryService from './../services/CountryService';
 
 class Index extends HTMLElement {
   countries: ICountry[];
@@ -15,7 +15,7 @@ class Index extends HTMLElement {
     this.render();
 
     try {
-      this.countries = await fetchCountries('/all');
+      this.countries = await CountryService.fetchCountries();
       this.renderCountries(this.countries);
     } catch (error) {
       this.container.textContent = 'No results';

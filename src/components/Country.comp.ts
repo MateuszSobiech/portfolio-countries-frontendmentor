@@ -16,9 +16,9 @@ export class Country extends HTMLElement {
     this.render();
   }
 
-  render() {
+  render = () => {
     const {
-      flags: { png = '' },
+      flags: { png = '', alt = 'flag image' },
       name: { common = '' },
       population = 0,
       region = '',
@@ -27,20 +27,18 @@ export class Country extends HTMLElement {
 
     this.dataset.name = common;
 
+    const populationValue = population?.toLocaleString('en-US') || 'No informations';
     this.innerHTML = `
     <article class="c-country">
-      <img src="${png}" alt="flag" loading="lazy" />
+      <img src="${png}" alt="${alt}" loading="lazy" />
       <div class="c-country__info">
         <p class="c-country__title">${common}</p>
-        <p class="c-country__text">Population: <span>${population.toLocaleString(
-          'en-US'
-        )}</span></p>
+        <p class="c-country__text">Population: <span>${populationValue}</span></p>
         <p class="c-country__text">Region: <span>${region}</span></p>
         <p class="c-country__text">Capital: <span>${capital}</span></p>
       </div>
-    </article
-    `;
-  }
+    </article`;
+  };
 }
 
 customElements.define('c-country', Country);

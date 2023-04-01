@@ -1,4 +1,4 @@
-import { getCountry, getBorderNames } from '../services/CountryService';
+import CountryService from '../services/CountryService';
 
 class CountryDetails extends HTMLElement {
   country: ICountry;
@@ -8,10 +8,15 @@ class CountryDetails extends HTMLElement {
 
     try {
       const name = this.getNameParam();
-      this.country = await getCountry(name);
+
+      this.country = await CountryService.fetchCountry(name);
+      if (!this.country) throw new Error(`Can not find country for "${name}"`);
+
       this.render();
-    } catch {
+    } catch (error) {
       this.renderError();
+
+      console.error(error);
     }
   }
 
@@ -30,8 +35,8 @@ class CountryDetails extends HTMLElement {
   };
 
   getBorderNames = async (borders: string[]) => {
-    const countries = await getBorderNames(borders.join());
-    return countries.map(({ name: { common } }) => `<button borderButton >${common}</button>`);
+    const countries = await CountryService.fetchBorderNames(borders.join());
+    return countries.map(({ name: { common } }) => `<button borderButton>${common}</button>`);
   };
 
   // Renderers
@@ -57,12 +62,15 @@ class CountryDetails extends HTMLElement {
     } = this.country;
 
     const firstNative: string = (Object.values(nativeName)[0] as any)?.common || '';
+
     const formattedCurrencies: string =
       (Object.values(currencies) as any[]).map(({ name }) => name).join(', ') || '';
+
     const formattedLanguages: string = Object.values(languages).join(', ') || '';
 
     const borderNames: string[] = borders.length ? await this.getBorderNames(borders) : [];
 
+    const populationValue = population?.toLocaleString('en-US') || 'No informations';
     this.innerHTML = `
     <main class="p-country-details">
       <a href="#/" class="p-country-details__back-button"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
@@ -76,14 +84,14 @@ class CountryDetails extends HTMLElement {
           <div class="md:info">
             <div>
               <p>Native Name: <span>${firstNative}</span></p>
-              <p>Population: <span>${population?.toLocaleString('en-US')}</span></p>
+              <p>Population: <span>${populationValue}</span></p>
               <p>Region: <span>${region}</span></p>
               <p>Sub Region: <span>${subregion}</span></p>
-              <p>Capital: <span>${capital.join(', ') || ''}</span></p>
+              <p>Capital: <span>${capital.join(', ')}</span></p>
             </div>
 
             <div class="p-country-details--mt48 md:info-second">
-              <p>Top Level Domain: <span>${tld.join(', ') || ''}</span></p>
+              <p>Top Level Domain: <span>${tld.join(', ')}</span></p>
               <p>Currencies: <span>${formattedCurrencies}</span></p>
               <p>Languages: <span>${formattedLanguages}</span></p>
             </div>

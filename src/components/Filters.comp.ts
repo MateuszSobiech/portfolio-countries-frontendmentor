@@ -26,8 +26,8 @@ class Filters extends HTMLElement {
 
       this.dispatchEvent(
         new CustomEvent('filtersChange', {
-          bubbles: true,
           detail: filtersState,
+          bubbles: true,
         })
       );
     };
@@ -37,7 +37,7 @@ class Filters extends HTMLElement {
   };
 
   // Renderers
-  render() {
+  render = () => {
     this.innerHTML = `
       <section class="c-filters">
         <div style="position: relative">
@@ -52,9 +52,8 @@ class Filters extends HTMLElement {
           <option>Europe</option>
           <option>Oceania</option>
         </select>
-      </section>
-      `;
-  }
+      </section>`;
+  };
 }
 
 customElements.define('c-filters', Filters);
