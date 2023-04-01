@@ -7,10 +7,10 @@ class CountryDetails extends HTMLElement {
     this.addEventListener('click', this.handleBorderClick);
 
     try {
-      const name = this.getNameParam();
+      const code = this.getCodeParam();
 
-      this.country = await CountryService.fetchCountry(name);
-      if (!this.country) throw new Error(`Can not find country for "${name}"`);
+      this.country = await CountryService.fetchCountry(code);
+      if (!this.country) throw new Error(`Can not find country for code: "${code}"`);
 
       this.render();
     } catch (error) {
@@ -24,19 +24,21 @@ class CountryDetails extends HTMLElement {
   handleBorderClick = ({ target }: Event & { target: HTMLElement }) => {
     if (!target.matches('[borderButton]')) return;
 
-    const { innerText: name } = target;
-    location.hash = `#/country?name=${name}`;
+    const { code } = target.dataset;
+    location.hash = `#/country?code=${code}`;
   };
 
   // Helpers
-  getNameParam = () => {
-    const nameParam = location.hash.split('?')[1].split('=')[1];
-    return nameParam;
+  getCodeParam = () => {
+    const codeParam = location.hash.split('?')[1].split('=')[1];
+    return codeParam;
   };
 
   getBorderNames = async (borders: string[]) => {
     const countries = await CountryService.fetchBorderNames(borders.join());
-    return countries.map(({ name: { common } }) => `<button borderButton>${common}</button>`);
+    return countries.map(({ cca2, name: { common } }) => {
+      return `<button borderButton data-code="${cca2}">${common}</button>`;
+    });
   };
 
   // Renderers
@@ -68,7 +70,9 @@ class CountryDetails extends HTMLElement {
 
     const formattedLanguages: string = Object.values(languages).join(', ') || '';
 
-    const borderNames: string[] = borders.length ? await this.getBorderNames(borders) : [];
+    const borderNames: string[] = borders.length
+      ? await this.getBorderNames(borders)
+      : ['<span style="font-size: 14px; line-height: 2;">No results</span>'];
 
     const populationValue = population?.toLocaleString('en-US') || 'No informations';
     this.innerHTML = `

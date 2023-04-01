@@ -27,8 +27,8 @@ class Index extends HTMLElement {
     const component = target.closest<HTMLElement>('c-country');
     if (!component) return;
 
-    const { name } = component.dataset;
-    location.hash = `#/country?name=${name}`;
+    const { code } = component.dataset;
+    location.hash = `#/country?code=${code}`;
   };
 
   handleFiltersChange = ({ detail: { input, select } }: CustomEvent<IFiltersValues>) => {

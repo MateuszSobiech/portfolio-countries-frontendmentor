@@ -9,9 +9,9 @@ class CountryService {
     return countries.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
   };
 
-  static fetchCountry = async (countryName: string): Promise<ICountry> => {
-    const countries = await (await fetch(`${this.API_URL}/name/${countryName}`)).json();
-    return countries.find(({ name: { common } }) => common === countryName);
+  static fetchCountry = async (cca2Code: string): Promise<ICountry> => {
+    const countries: ICountry[] = await (await fetch(`${this.API_URL}/alpha/${cca2Code}`)).json();
+    return countries.find(({ cca2 }) => cca2 === cca2Code);
   };
 
   static fetchBorderNames = async (codes: string): Promise<ICountry[]> => {

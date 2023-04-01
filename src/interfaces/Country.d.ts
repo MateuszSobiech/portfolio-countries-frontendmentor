@@ -1,4 +1,5 @@
 interface ICountry {
+  cca2: string;
   flags: { png: string; svg: string; alt: string };
   name: { common: string; nativeName: {} };
   population: number;

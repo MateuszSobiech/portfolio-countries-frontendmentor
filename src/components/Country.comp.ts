@@ -18,6 +18,7 @@ export class Country extends HTMLElement {
 
   render = () => {
     const {
+      cca2,
       flags: { png = '', alt = 'flag image' },
       name: { common = '' },
       population = 0,
@@ -25,7 +26,7 @@ export class Country extends HTMLElement {
       capital = '',
     } = this.country;
 
-    this.dataset.name = common;
+    this.dataset.code = cca2;
 
     const populationValue = population?.toLocaleString('en-US') || 'No informations';
     this.innerHTML = `
